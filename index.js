@@ -33,6 +33,34 @@ app.get('/users', async (req, res) => {
 	res.json(users);
 });
 
+app.put('/users/:id', async (req, res) => {
+	const { id } = req.params;
+	const { name, email, age, isMarried, nationality } = req.body;
+	const updatedUser = await prisma.user.update({
+		where: {
+			id: Number(id),
+		},
+		data: {
+			name,
+			email,
+			age,
+			isMarried,
+			nationality,
+		},
+	});
+	res.json(updatedUser);
+});
+
+app.delete('/users/:id', async (req, res) => {
+	const { id } = req.params;
+	const deletedUser = await prisma.user.delete({
+		where: {
+			id: Number(id),
+		},
+	});
+	res.json(deletedUser);
+});
+
 app.listen(port, () => {
 	console.log(`Example app listening from port ${port}`);
 });
