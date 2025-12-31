@@ -18,6 +18,21 @@ app.get('/', (req, res) => {
 	res.send('Hello World!');
 });
 
+app.get('/users', async (req, res) => {
+	const users = await prisma.user.findMany({
+		where: {
+			nationality: {
+				in: ['Brazil', 'Sweden'],
+			},
+			isMarried: true,
+			age: {
+				gte: 35,
+			},
+		},
+	});
+	res.json(users);
+});
+
 app.listen(port, () => {
 	console.log(`Example app listening from port ${port}`);
 });
